@@ -45,23 +45,23 @@
   
   #customers td,
   #customers th {
-    border: 1px solid #ddd;
+    border: 1px solid black;
     padding: 8px;
   }
   
   #customers tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: white;
   }
   
-  #customers tr:hover {
+  /* #customers tr:hover {
     background-color: #ddd;
-  }
+  } */
   
   #customers th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
-    background-color: #04AA6D;
+    background-color: #659dbd;
     color: white;
     position: relative;
     position: sticky;
@@ -109,10 +109,10 @@
   }
   
   .div-tags-cls {
-    border-style: double;
+    /* border-style: double; */
     text-align: center;
     margin: 10px auto;
-    margin-top: 120px;
+    margin-top: 105px;
   }
   
   .div-tags {
@@ -122,22 +122,27 @@
   }
   
   .modal {
+    /* font-size: px; */
     overflow-y: scroll;
   }
   
   .modal>.content {
     height: 350px;
-    padding: 10px 5px;
+    /* width: 100%; */
+    padding: 10px 0px;
+    width: 100%;
   }
   
   .modal>.header {
+    /* width: 100%; */
     padding: 10px 5px;
     text-align: center;
     border: double;
   }
   
   .fixed-header {
-    border-style: double;
+    border-style: solid;
+    border-color: black;
     text-align: center;
     position: fixed;
     top: 10%;
@@ -145,10 +150,57 @@
   
   .fixed-header-1 {
     width: 100%;
-    border-style: ridge;
+    border-style: solid;
+    border-color: black;
     position: fixed;
     top: 0%;
     margin: auto;
     background-color: black;
     display: flex;
+  }
+  
+  .button1 {
+    border-radius: 4px;
+    background-color: white;
+    border: none;
+    color: black;
+    text-align: center;
+    font-size: 28px;
+    /* padding: 20px;
+    width: 200px; */
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .button1 span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button1 span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+    /* color: aqua; */
+  }
+  
+  .button1:hover span {
+    padding-right: 20px;
+  }
+  
+  .button1:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  
+  .rowC {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
   }
