@@ -1,0 +1,154 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #customers td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  #customers tr:hover {
+    background-color: #ddd;
+  }
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #04AA6D;
+    color: white;
+    position: relative;
+    position: sticky;
+    top: 0;
+  }
+  
+  .loader-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.834);
+    z-index: 1;
+  }
+  
+  .spinner {
+    width: 64px;
+    height: 64px;
+    border: 8px solid;
+    border-color: #3d5af1 transparent #3d5af1 transparent;
+    border-radius: 50%;
+    animation: spin-anim 1.2s linear infinite;
+  }
+  
+  @keyframes spin-anim {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .div-tags-cls {
+    border-style: double;
+    text-align: center;
+    margin: 10px auto;
+    margin-top: 120px;
+  }
+  
+  .div-tags {
+    border-style: double;
+    text-align: center;
+    margin: 10px auto;
+  }
+  
+  .modal {
+    overflow-y: scroll;
+  }
+  
+  .modal>.content {
+    height: 350px;
+    padding: 10px 5px;
+  }
+  
+  .modal>.header {
+    padding: 10px 5px;
+    text-align: center;
+    border: double;
+  }
+  
+  .fixed-header {
+    border-style: double;
+    text-align: center;
+    position: fixed;
+    top: 10%;
+  }
+  
+  .fixed-header-1 {
+    width: 100%;
+    border-style: ridge;
+    position: fixed;
+    top: 0%;
+    margin: auto;
+    background-color: black;
+    display: flex;
+  }
