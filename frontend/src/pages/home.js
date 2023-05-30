@@ -12,6 +12,9 @@ const Home = () => {
     const [data, setdata] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const overall_plugins = [...new Set(data)];
+    const length_overall = overall_plugins.length;
+
     const filterd_cte = data.filter(cte => cte.module === 'CTE');
     let l_cte = filterd_cte.filter((ele, ind) => ind === filterd_cte.findIndex(elem => elem.plugin_name === ele.plugin_name))
     const length_cte = l_cte.length;
@@ -64,9 +67,12 @@ const Home = () => {
     let l_are_beta = filterd_are_beta.filter((ele, ind) => ind === filterd_are_beta.findIndex(elem => elem.plugin_name === ele.plugin_name))
     const length_are_beta = l_are_beta.length;
 
-    let in_both = data.filter((obj) => (obj.ga !== undefined && obj.beta !== undefined && (parseInt((Date.parse(Date()) - Date.parse(obj.ga)) / (1000 * 3600 * 24)) >= 15)))
+    // let in_both = data.filter((obj) => (obj.ga !== undefined && obj.beta !== undefined && (parseInt((Date.parse(Date()) - Date.parse(obj.ga)) / (1000 * 3600 * 24)) >= 15)))
+    let in_both = data.filter((obj) => (obj.ga !== undefined && obj.beta !== undefined))
     const length_in_both = in_both.length;
-    let in_beta = data.filter((obj) => (obj.ga === undefined && obj.beta !== undefined && parseInt((Date.parse(Date()) - Date.parse(obj.beta)) / (1000 * 3600 * 24)) >= 15))
+
+    // let in_beta = data.filter((obj) => (obj.ga === undefined && obj.beta !== undefined && parseInt((Date.parse(Date()) - Date.parse(obj.beta)) / (1000 * 3600 * 24)) >= 15))
+    let in_beta = data.filter((obj) => (obj.ga === undefined && obj.beta !== undefined))
     const length_in_beta = in_beta.length;
 
     const ResultArea = styled.div`
@@ -175,23 +181,10 @@ const Home = () => {
             })
         );
     }
-    const productList = ["blue pant"
-        , "black pant"
-        , "blue shirt"
-        , "black shoes"
-        , "brown shoes"
-        , "white pant"
-        , "white shoes"
-        , "red shirt"
-        , "gray pant"
-        , "white shirt"
-        , "golden shoes"
-        , "dark pant"
-        , "pink shirt"
-        , "yellow pant"];
+
     const [products, setProducts] = useState(data);
     const [searchVal, setSearchVal] = useState("");
-    const handleSearchData = (e) =>{
+    const handleSearchData = (e) => {
         setSearchVal(e.target.value);
         setProducts(data);
         console.log(products)
@@ -220,9 +213,13 @@ const Home = () => {
                     {
                         searchVal === "" ? (<div></div>) : (<div>{products.map((product) => {
                             console.log(product.plugin_name);
-                            if (product.plugin_name.toLowerCase().includes(searchVal.toLowerCase())){
+                            if (product.plugin_name.toLowerCase().includes(searchVal.toLowerCase())) {
                                 return (
-                                    <div style={{"textAlign": "left", "padding": "5px"}}><b>Module - </b>{product.module} || <b>Plugin - </b>{product.plugin_name} ({product.folder}) || <b>GA Version - </b>{product.ga_version} || <b>GA Date - </b>{product.ga} || <b>Beta Version - </b>{product.beta_version} || <b>Beta Date - </b>{product.beta} <Link to={product.module}>More Info</Link></div>
+                                    <Collapsible close trigger={<button className="button1" style={{ "fontSize": "15px", "border": "None" }}><span> <div style={{ "textAlign": "left", "padding": "5px", "border": "groove" }}><b>Module - </b><i><u>{product.module}</u></i> || <b>Plugin - </b><i><u>{product.plugin_name}</u></i> ({product.folder}) </div> </span></button>} triggerStyle={{ "fontSize": "30px", }}><table style={{ "width": "100%" }}>
+                                        <tbody>
+                                            <div style={{ "textAlign": "left", "padding": "5px", "border": "groove" }}><tr><b>GA Version - </b><i><u>{product.ga_version}</u></i> || <b>GA Date - </b>{product.ga}</tr><tr><b>Beta Version - </b><i><u>{product.beta_version}</u></i> || <b>Beta Date - </b>{product.beta}</tr><tr> --  [<Link to={product.module}>More Info</Link>]</tr></div>
+                                        </tbody>
+                                    </table></Collapsible>
                                 )
                             }
                         })
@@ -235,7 +232,22 @@ const Home = () => {
                 </div>
                 <div>
                     <div>
-                        <fieldset style={{ "fontSize": "20px" }}><legend><b><i><u>Overall</u></i></b></legend>
+                        <fieldset style={{ "fontSize": "20px" }}><legend><Popup trigger=
+                            {<button className="button1" style={{ "border": "None", "background": "white", "fontSize": "20px" }}><span><b><i><u>Overall</u></i></b> <i>[{length_overall}]</i></span></button>}
+                            nested modal>
+                            <div className="modal">
+                                <div className="header">
+                                    <h2>Plugins</h2>
+                                </div>
+                                <div className="content"><table style={{ "width": "100%", "border": "double" }}>
+                                    {overall_plugins.sort((a, b) => a.module < b.module ? -1 : 1,).map((item, index) => (
+                                        <div key={index}> <td style={{ "border": "inset", "width": "1%" }}><b>{item.module}</b></td><td style={{ "border": "outset", "width": "55%" }}><u><i>{item.plugin_name}</i></u></td>
+                                        </div>
+                                    ))}
+                                </table>
+                                </div>
+                            </div>
+                        </Popup></legend>
                             <Chart
                                 chartType="PieChart"
                                 data={overall}
@@ -389,27 +401,58 @@ const Home = () => {
                         </div>
                     </div >
                     <div>
-                        <fieldset style={{ "fontSize": "20px" }}><legend ><b><i><u>Need To Remove from Beta Repo</u></i></b></legend>
+                        <fieldset style={{ "fontSize": "20px" }}><legend><Popup trigger=
+                            {<button className="button1" style={{ "border": "None", "background": "white", "fontSize": "20px" }}><span><b><i><u>Need To GA</u></i></b> <i>[{length_in_beta}]</i></span></button>}
+                            nested modal>
+                            <div className="modal">
+                                <div className="header">
+                                    <h2>Plugins</h2>
+                                </div>
+                                <div className="content"><table style={{ "width": "100%", "border": "double" }}>
+                                    {in_beta.sort((a, b) => a.module < b.module ? -1 : 1,).map((item, index) => (
+                                        <div key={index}> {parseInt((Date.parse(Date()) - Date.parse(item.beta)) / (1000 * 3600 * 24)) >= 15 ? (<p><td style={{ "border": "inset", "width": "1%", "background": "red", "color": "white" }}><b>{item.module}</b></td><td style={{ "border": "outset", "width": "55%", "background": "red", "color": "white" }}><u><i>{item.plugin_name}</i></u></td><td style={{ "border": "inset", "width": "10%", "color": "red" }}><b>{parseInt((Date.parse(Date()) - Date.parse(item.beta)) / (1000 * 3600 * 24))}</b> Days</td></p>) : (<p><td style={{ "border": "inset", "width": "1%", "background": "green", "color": "white" }}><b>{item.module}</b></td><td style={{ "border": "outset", "width": "55%", "background": "green", "color": "white" }}><u><i>{item.plugin_name}</i></u></td><td style={{ "border": "inset", "width": "10%", "color": "green" }}><b>{parseInt((Date.parse(Date()) - Date.parse(item.beta)) / (1000 * 3600 * 24))}</b> Days</td></p>)}
+                                        </div>
+                                    ))}
+                                </table>
+                                </div>
+                            </div>
+                        </Popup></legend>
+                            {data_line_ga.length >= 2 ? (
+                                <Chart
+                                    chartType="Timeline"
+                                    data={data_line_ga}
+                                    options={options}
+                                    width={"100%"}
+                                    height={"400px"}
+                                />
+                            ) : (<p>No Data</p>)}
+                        </fieldset>
+                    </div>
+                    <div>
+                        {/* <fieldset style={{ "fontSize": "20px" }}><legend><button className="button1" style={{"border": "None", "background": "white", "fontSize": "20px"}}><span><b><i><u>Need To Remove from Beta Repo</u></i></b> <i>[{length_in_both}]</i></span></button></legend> */}
+                        <fieldset style={{ "fontSize": "20px" }}><legend><Popup trigger=
+                            {<button className="button1" style={{ "border": "None", "background": "white", "fontSize": "20px" }}><span><b><i><u>Need To Remove from Beta Repo</u></i></b> <i>[{length_in_both}]</i></span></button>}
+                            nested modal>
+                            <div className="modal">
+                                <div className="header">
+                                    <h2>Plugins</h2>
+                                </div>
+                                <div className="content"><table style={{ "width": "100%", "border": "double" }}>
+                                    {in_both.sort((a, b) => a.module < b.module ? -1 : 1,).map((item, index) => (
+                                        <div key={index}> {parseInt((Date.parse(item.ga) - Date.parse(item.beta)) / (1000 * 3600 * 24)) >= 15 ? (<p><td style={{ "border": "inset", "width": "1%", "background": "red", "color": "white" }}><b>{item.module}</b></td><td style={{ "border": "outset", "width": "55%", "background": "red", "color": "white" }}><u><i>{item.plugin_name}</i></u></td><td style={{ "border": "inset", "width": "10%", "color": "red" }}><b>{parseInt((Date.parse(item.ga) - Date.parse(item.beta)) / (1000 * 3600 * 24))}</b> Days</td></p>) : (<p><td style={{ "border": "inset", "width": "1%", "background": "green", "color": "white" }}><b>{item.module}</b></td><td style={{ "border": "outset", "width": "55%", "background": "green", "color": "white" }}><u><i>{item.plugin_name}</i></u></td><td style={{ "border": "inset", "width": "10%", "color": "green" }}><b>{parseInt((Date.parse(item.ga) - Date.parse(item.beta)) / (1000 * 3600 * 24))}</b> Days</td></p>)}
+                                        </div>
+                                    ))}
+                                </table>
+                                </div>
+                            </div>
+                        </Popup></legend>
                             {data_line_beta.length >= 2 ? (
                                 <Chart
                                     chartType="Timeline"
                                     data={data_line_beta}
                                     options={options}
                                     width={"100%"}
-                                // height={"400px"}
-                                />
-                            ) : (<p>No Data</p>)}
-                        </fieldset>
-                    </div>
-                    <div>
-                        <fieldset style={{ "fontSize": "20px" }}><legend><b><i><u>Need To GA</u></i></b></legend>
-                            {data_line_ga.length >= 2 ? (
-                                <Chart
-                                    chartType="Timeline"
-                                    data={data_line_ga}
-                                    options={options}
-                                // width={"100%"}
-                                // height={"400px"}
+                                    height={"400px"}
                                 />
                             ) : (<p>No Data</p>)}
                         </fieldset>
